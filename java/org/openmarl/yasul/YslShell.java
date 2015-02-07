@@ -123,6 +123,10 @@ public class YslShell {
                 variableValue));
     }
 
+    public boolean kill(int pid) {
+        return false;
+    }
+
     public boolean chown(String user, String path) throws YslEpipeExcetion {
         YslParcel parcel = mYslSession.exec(String.format( "chown %s %s", user, path));
         return (parcel.exitCode == 0);

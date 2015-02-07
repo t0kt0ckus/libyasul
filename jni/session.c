@@ -167,11 +167,17 @@ int ysl_session_exec(ysl_session_t *s, const char *cmdstr, int *ecode,
         // sets exit code
         (*ecode) = s->lec;
         // sets last TTY line
-        (*ltty) = malloc(strlen(s->ltty)+1);
-        if (*ltty)
-            strcpy(*ltty, s->ltty);
-        else
-            err = ENOMEM;
+        if (s->ltty) {
+            (*ltty) = malloc(strlen(s->ltty)+1);
+            if (*ltty)
+                strcpy(*ltty, s->ltty);
+            else
+                err = ENOMEM;
+        }
+        else {
+            (*ltty) = malloc(1);
+            *(*ltty) = 0x00;
+        }
     }
     else 
         err = EPIPE;

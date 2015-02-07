@@ -52,6 +52,10 @@ public class YslContext {
         }
     }
 
+    public String getVersion() {
+        return Libyasul.getversion();
+    }
+
     public String getLogpath() {
         return Libyasul.getlog();
     }

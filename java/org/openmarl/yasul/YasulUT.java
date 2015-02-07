@@ -39,20 +39,27 @@ public class YasulUT {
         String txtResult;
         int nRetval;
 
-        // output logpath
-        String yslLogpath = YslContext.getInstance().getLogpath();
-        if (yslLogpath == null) {
-            Log.e(TAG, "SHOULD NOT be null !");
+        // preamble
+        txtResult = YslContext.getInstance().getVersion();
+        if (txtResult == null) {
+            Log.e(TAG, "Version SHOULD NOT be null !");
             return false;
         }
-        Log.d(TAG , String.format("Libyasul log path: %s", yslLogpath));
+        Log.d(TAG , String.format("Libyasul version: %s", txtResult));
+        txtResult = YslContext.getInstance().getLogpath();
+        if (txtResult == null) {
+            Log.e(TAG, "Logpath SHOULD NOT be null !");
+            return false;
+        }
+        Log.d(TAG , String.format("Libyasul log path: %s", txtResult));
+
 
         // check stupid command
         //
         parcel = mYslSession.exec(TEST_UNDEF_CMD);
         Log.d(TAG, String.format("#%s: %d", TEST_UNDEF_CMD, parcel.exitCode));
         if (parcel.exitCode == 0) {
-            Log.e(TAG, "SHOULD NOT be 0 !");
+            Log.e(TAG, "check stupid command: exit code SHOULD NOT be 0 !");
             return false;
         }
 

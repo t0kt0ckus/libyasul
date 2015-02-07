@@ -30,6 +30,12 @@ public class Libyasul {
 
     /**
      *
+     * @return
+     */
+    public static native String getversion();
+
+    /**
+     *
      * @param flags
      * @return
      */

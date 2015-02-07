@@ -47,6 +47,12 @@ JNIEXPORT int JNICALL
     yjni_fatal |= yjni_init(env); 
     return yjni_fatal;
 }
+JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_getversion(JNIEnv *env, 
+            jobject jInstance) {
+    jstring jVersion = (*env)->NewStringUTF(env, YSL_BUILD_VERSION);    
+    return jVersion;    
+}
 
 JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_getlog(JNIEnv *env, 

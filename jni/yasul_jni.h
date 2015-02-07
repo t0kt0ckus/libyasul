@@ -23,6 +23,10 @@ JNIEXPORT jint JNICALL
             jboolean jDebug);
 
 JNIEXPORT jobject JNICALL
+    Java_org_openmarl_yasul_Libyasul_getversion(JNIEnv *env, 
+            jobject jInstance);            
+
+JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_getlog(JNIEnv *env, 
             jobject jInstance);
 
