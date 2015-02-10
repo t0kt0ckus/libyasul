@@ -9,21 +9,25 @@
  */
 package org.openmarl.yasul;
 
+/** Indicates that a Shell session has been <i>invalidated</i>.
+ * This may result from a <i>broken pipe</i> or a call to
+ * {@link org.openmarl.yasul.YslSession#exit(long, boolean) exit()}.
+ */
 public class YslEpipeExcetion extends Exception {
 
-    public YslEpipeExcetion() {
+    YslEpipeExcetion() {
         super();
     }
 
-    public YslEpipeExcetion(String detailMessage) {
+    YslEpipeExcetion(String detailMessage) {
         super(detailMessage);
     }
 
-    public YslEpipeExcetion(String detailMessage, Throwable throwable) {
+    YslEpipeExcetion(String detailMessage, Throwable throwable) {
         super(detailMessage, throwable);
     }
 
-    public YslEpipeExcetion(Throwable throwable) {
+    YslEpipeExcetion(Throwable throwable) {
         super(throwable);
     }
 }

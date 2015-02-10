@@ -11,12 +11,22 @@ package org.openmarl.yasul;
 
 import java.io.Serializable;
 
+/** Represents a command string execution result.
+ *
+ */
 public class YslParcel implements Serializable {
 
+    /** The command execution exit code.
+     */
     public final int exitCode;
+
+    /** The last <i>TTY line</i> produced by the Shell process to its <code>stdout</code>,
+     * during a command execution.
+     * Actually content depends upon the {@link YslSession#SF_ZTTY} control flag.
+     */
     public final String lastTty;
 
-    public YslParcel(int exitCode, String lastTty) {
+    YslParcel(int exitCode, String lastTty) {
         this.exitCode = exitCode;
         this.lastTty = lastTty;
     }

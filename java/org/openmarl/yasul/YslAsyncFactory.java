@@ -14,16 +14,19 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
+/** Implements a simple asynchronous Shell session factory.
+ * <p>As this implementation relies upon and Android <code>AsyncTask</code>,
+ * client is signaled on the application main/UI thread.
+ * </p>
+ */
 public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
 
     private final Context mAppCtx;
-    private final YslContext mYslContext;
     private final YslObserver mClient;
     private final int mCtlFlags;
 
-    YslAsyncFactory(Context appCtx, YslContext yslContext, YslObserver client, int flags) {
+    YslAsyncFactory(Context appCtx, YslObserver client, int flags) {
         mAppCtx = appCtx;
-        mYslContext =yslContext;
         mClient = client;
         mCtlFlags = flags;
     }

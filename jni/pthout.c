@@ -46,15 +46,15 @@ void *ysl_pthout_fn(void *arg) {
 
         if (z != '\n')
             ysl_buf_add(b, &z, 1);        
+        // EOL
         else {
-            // EOL
             if (ysl_buf_strstr(b, YSL_LEC_TAG)) {
                 // End of command
 
                 // update session's ltty if needed
                 if (! (s->flags & YSL_SF_TAIL)) {
-                    free(s->ltty);
                     if (hrsz > 0) {
+                        free(s->ltty);
                         s->ltty = malloc(hrsz);
                         if (s->ltty) 
                             memcpy(s->ltty, hrtty, hrsz);
@@ -62,13 +62,16 @@ void *ysl_pthout_fn(void *arg) {
                     else {
                         // we assume ltty should then be empty
                         if (s->flags & YSL_SF_ZTTY) {
+                            free(s->ltty);
                             s->ltty = malloc(1);
                             *(s->ltty) = 0x00;
                         }
+                        else *(s->ltty) = 0x00;
                     } 
                 }
 
                 // update LEC
+                b->data[b->len] = 0;
                 sscanf(b->data, YSL_LEC_SSCAN, &s->lec);
 
                 // wakeup main thread waiting for exit code

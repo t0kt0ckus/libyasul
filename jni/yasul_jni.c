@@ -185,8 +185,7 @@ JNIEXPORT void JNICALL
             jboolean jForceKill) {
     // native parms
     long addr = jSessionId;
-    ysl_log_debugf("JNI: exit(0x%x , %d, %d)\n",
-     addr, jTimeout, jForceKill);
+    ysl_log_debugf("JNI: exit(0x%x , %d, %d)\n", addr, jTimeout, jForceKill);
 
     // resolve session (last time it will not crash !)
     ysl_session_t *s = (ysl_session_t *) addr;
