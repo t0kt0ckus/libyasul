@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     ysl_log_init(YSL_LOGDIR, 1);
     
     ysl_session_t *s = yasul_open_session(YSL_LOGDIR,
-            YSL_SF_EOUT | YSL_SF_EERR | YSL_SF_VERB);
+            YSL_SF_EOUT | YSL_SF_EERR | YSL_SF_VERB, NULL);
     if (! s) {
         printf("failed connect to shell process !\n");
         return 1;

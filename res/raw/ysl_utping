@@ -1,0 +1,4 @@
+#!/system/bin/sh
+
+echo "YSL_UT_ACK"
+exit 0;

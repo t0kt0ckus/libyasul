@@ -10,7 +10,6 @@
 package org.openmarl.yasul;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 
 /** Implements a simple asynchronous command string execution.
@@ -19,7 +18,7 @@ import android.util.Log;
  * and client is signaled on the application main/UI thread.
  * </p>
  */
-public class YslAsyncExecutor extends AsyncTask<Void,Void,YslParcel> {
+public class YslAsyncCommand extends AsyncTask<Void,Void,YslParcel> {
 
     private final YslSession mYslSession;
     private final YslObserver mClient;
@@ -31,7 +30,7 @@ public class YslAsyncExecutor extends AsyncTask<Void,Void,YslParcel> {
      * @param client The client to signal once command execution's completed.
      * @param cmdstr The command string to execute.
      */
-    public YslAsyncExecutor(YslSession yslSession, YslObserver client, String cmdstr) {
+    public YslAsyncCommand(YslSession yslSession, YslObserver client, String cmdstr) {
         mYslSession = yslSession;
         mClient = client;
         mCmdstr = cmdstr;
@@ -43,7 +42,7 @@ public class YslAsyncExecutor extends AsyncTask<Void,Void,YslParcel> {
         try {
             parcel = mYslSession.exec(mCmdstr);
         }
-        catch (YslEpipeExcetion yslEpipeExcetion) {
+        catch (YslEpipeException yslEpipeExcetion) {
             // this EPIPE will be reported when signaling client with a null Shell result
         }
         return parcel;
@@ -53,7 +52,7 @@ public class YslAsyncExecutor extends AsyncTask<Void,Void,YslParcel> {
     protected void onPostExecute(YslParcel yslParcel) {
         super.onPostExecute(yslParcel);
         if (mClient != null)
-            mClient.onAsynCommandEvent(yslParcel);
+            mClient.onAsyncCommandEvent(yslParcel);
     }
 
     private static final String TAG = "YASUL";

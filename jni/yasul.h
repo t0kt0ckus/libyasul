@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-ysl_session_t *yasul_open_session(const char *logdir, int flags); 
+ysl_session_t *yasul_open_session(const char *logdir, int flags, const char *secontext); 
 
 #ifdef __cplusplus
 }

@@ -69,12 +69,15 @@ JNIEXPORT jobject JNICALL
 JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_open(JNIEnv *env, 
             jobject jInstance,
-            jint jFlags) {
+            jint jFlags,
+            jstring jSelContext) {
     if (yjni_fatal)
         return NULL;
 
+    const char *secontext = (*env)->GetStringUTFChars(env, jSelContext, NULL);
     jobject jYslport = NULL;
-    ysl_session_t *s = yasul_open_session(yjni_basedir, jFlags);
+    ysl_session_t *s = yasul_open_session(yjni_basedir, jFlags, secontext);
+    (*env)->ReleaseStringUTFChars(env, jSelContext, secontext);
 
     if (s) {
         jint jPid = s->pid;

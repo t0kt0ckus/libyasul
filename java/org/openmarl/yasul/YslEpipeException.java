@@ -13,21 +13,26 @@ package org.openmarl.yasul;
  * This may result from a <i>broken pipe</i> or a call to
  * {@link org.openmarl.yasul.YslSession#exit(long, boolean) exit()}.
  */
-public class YslEpipeExcetion extends Exception {
+public class YslEpipeException extends Exception {
 
-    YslEpipeExcetion() {
+    YslEpipeException() {
         super();
     }
 
-    YslEpipeExcetion(String detailMessage) {
+    YslEpipeException(String detailMessage) {
         super(detailMessage);
     }
 
-    YslEpipeExcetion(String detailMessage, Throwable throwable) {
+    YslEpipeException(String detailMessage, Throwable throwable) {
         super(detailMessage, throwable);
     }
 
-    YslEpipeExcetion(Throwable throwable) {
+    YslEpipeException(Throwable throwable) {
         super(throwable);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

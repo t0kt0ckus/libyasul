@@ -12,9 +12,7 @@ package org.openmarl.yasul;
 import android.content.Context;
 import android.util.Log;
 
-/** Initializes the Yasul shared library, and acts as a Shell sessions factory.
- * <p>This is the recommended entry point for any client Android application.
- * </p>
+/** Initializes the Yasul shared library, and acts as a shell sessions factory.
  *
  */
 public class YslContext {
@@ -23,12 +21,14 @@ public class YslContext {
     private static YslContext _singleton = null;
 
     /** Access to the Ysl context singleton.
-     * <p>If needed, the context is initialized: this initialization may occur on main thread.</p>
+     * <p>If needed, the context initializes the shared library:
+     * this initialization may occur on main thread.
+     * </p>
      *
      * @param appCtx A valid Android application context.
-     * @param shouldDebugYsl When set, enabled additional logging information.
+     * @param shouldDebugYsl When set, enable additional logging information at context level.
      *
-     * @return An initialized context, or <code>null</code> when failed to initialize.
+     * @return An initialized context, or <code>null</code> if any error occurred.
      *
      * @see org.openmarl.yasul.Libyasul#bootstrap(String, boolean)
      */
@@ -46,7 +46,8 @@ public class YslContext {
 
     /** Access to the Ysl context singleton.
      *
-     * @return An initialized context, or <code>null</code> when no such initialization occurred.
+     * @return An initialized context, or <code>null</code> when the shared library has not been
+     * initialized.
      */
     public static YslContext getInstance() {
         return _singleton;
@@ -77,53 +78,34 @@ public class YslContext {
         return Libyasul.getversion();
     }
 
-    /** Access the Yasul context log file.
+    /** Access the Yasul library log file.
      *
-     * @return An absolute path.
-     *
-     * @see Libyasul#getlog()
+     * @return The absolute log file path, for eg.
+     * <code>/data/data/com.example.app/files/yasul-12345.log</code>, where
+     * <code>/data/data/com.example.app</code> is the private filesystem of the
+     * Android application that loaded the library, and <code>12345</code> its PID.
      */
     public String getLogpath() {
         return Libyasul.getlog();
     }
 
-    /** Opens a new Shell session.
-     * <p>This may take more or less time, and involve user interactions and/or timeout.
-     * Thus, this implementation is asynchronous
-     * ({@link org.openmarl.yasul.YslAsyncFactory YslAsyncFactory}, and calling thread will be
-     * signaled once the native IPC setup status is consistent.
-     * </p>
-     * <p>This native IPC setup is implemented by
-     * <code>ysl_session_t *yasul_open_session(const char *logdir, int flags)</code>:
-     * <ol>
-     *     <li>If no suitable <code>su</code> binary is found, abort.</li>
-     *     <li>If fails to initialize IPC sockets, abort.</li>
-     *     <li>If fails to <code>fork()</code>, abort.</li>
-     *     <li>Sends a preamble command string to child process, and wait ...</li>
-     *     <ul>
-     *         <li>a) the user refuses SU permission, or some confirmation dialog
-     *         times out: abort.</li>
-     *         <li>b) the child process died for any other reason: abort.</li>
-     *         <li>c) the user accepts SU permission, or no interaction was involved: continue ...
-     *         </li>
-     *     </ul>
-     *     <li>Shell session is confirmed:</li>
-     *     <ul>
-     *         <li>initializes native session peer</li>
-     *         <li><code>dup2()</code> appropriate socket descriptors</li>
-     *         <li>create native session's threads (3)</li>
-     *     </ul>
-     *     <li>The native session is ready to tunnel command strings to Shell child process.</li>
-     * </ol>
+    /** Initiates the creation of a new shell session.
+     *
+     * <p>This may take more or less time, and involve user interactions and/or a timeout.
+     * Thus, this {@link YslAsyncSessionFactory implementation} is asynchronous and session's
+     * initialization occurs on a background thread. The client will be signaled on the main/UI
+     * thread once the setup result is available.
      * </p>
      *
-     * @param client The client to signal once native IPC setup has completed.
+     * @param client The client to signal.
      * @param ctlFlags The session's initial control flags. The available flags are defined as
      *                 <code>YslSession.SF_XXXX</code>.
-     *
+     * @param secontext An SE Linux context name, or <code>null</code> when no context switch is
+     *                  specified. This feature is only compatible with
+     *                  <a href="http://su.chainfire.eu/#selinux-contexts-switching-how">SuperSU versions 1.90 and up</a>.
      */
-    public void openSession(YslObserver client, int ctlFlags) {
-        new YslAsyncFactory(mAppCtx, client, ctlFlags).execute();
+    public void openSession(YslObserver client, int ctlFlags, String secontext) {
+        new YslAsyncSessionFactory(mAppCtx, client, ctlFlags, secontext).execute();
     }
 
     private class BootstrapError extends Exception {

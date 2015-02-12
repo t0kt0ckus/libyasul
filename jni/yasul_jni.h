@@ -33,7 +33,8 @@ JNIEXPORT jobject JNICALL
 JNIEXPORT jobject JNICALL
     Java_org_openmarl_yasul_Libyasul_open(JNIEnv *env, 
             jobject jInstance,
-            jint jFlags);
+            jint jFlags,
+            jstring jSelContext);
 
 JNIEXPORT jint JNICALL
     Java_org_openmarl_yasul_Libyasul_stat(JNIEnv *env, 

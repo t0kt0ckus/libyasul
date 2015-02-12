@@ -66,7 +66,7 @@ void *ysl_pthout_fn(void *arg) {
                             s->ltty = malloc(1);
                             *(s->ltty) = 0x00;
                         }
-                        else *(s->ltty) = 0x00;
+                        //else *(s->ltty) = 0x00;
                     } 
                 }
 

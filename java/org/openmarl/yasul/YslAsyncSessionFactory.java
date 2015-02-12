@@ -19,21 +19,23 @@ import android.util.Log;
  * client is signaled on the application main/UI thread.
  * </p>
  */
-public class YslAsyncFactory extends AsyncTask<Void,Void,YslSession> {
+public class YslAsyncSessionFactory extends AsyncTask<Void,Void,YslSession> {
 
     private final Context mAppCtx;
     private final YslObserver mClient;
     private final int mCtlFlags;
+    private final String mSelCtx;
 
-    YslAsyncFactory(Context appCtx, YslObserver client, int flags) {
+    YslAsyncSessionFactory(Context appCtx, YslObserver client, int flags, String secontext) {
         mAppCtx = appCtx;
         mClient = client;
         mCtlFlags = flags;
+        mSelCtx = secontext;
     }
 
     @Override
     protected YslSession doInBackground(Void... params) {
-        YslPort port = Libyasul.open(mCtlFlags);
+        YslPort port = Libyasul.open(mCtlFlags, mSelCtx);
         if (port != null) {
             YslSession session = new YslSession(mAppCtx, port.pid, port.ID, port.stdout,
                     port.stderr);

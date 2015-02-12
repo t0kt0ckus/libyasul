@@ -41,7 +41,8 @@ static int ysl_shell_ack(int ipcin, int ipcout);
 
 // yasul_open_session():
 //
-ysl_session_t *yasul_open_session(const char *logdir, int flags) {
+ysl_session_t *yasul_open_session(const char *logdir, int flags,
+    const char* secontext) {
     ysl_log_printf("+ yasul_open_session(0x%x , <%s>):\n", flags, logdir);
 
     // lookup su
@@ -80,7 +81,11 @@ ysl_session_t *yasul_open_session(const char *logdir, int flags) {
         dup2(svout[1], 1);
         dup2(sverr[1], 2);
         // and attempts to start requested shell
-        char *const params[2] = {suexec, NULL};
+        char *params[4] = { suexec, NULL, NULL, NULL};
+        if (secontext) {
+            params[1] = "--context"; 
+            params[2] = (char *) secontext;
+        }
         execve(suexec, params, YSL_SU_ENV);
         exit(1);
     }
