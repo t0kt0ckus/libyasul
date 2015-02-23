@@ -36,7 +36,7 @@ public abstract class AbstractYasulUT implements YslObserver {
     }
 
     public void start() {
-        mYslContext.openSession(this, mFlags, mSelCtx);
+        mYslContext.openSession(mFlags, mSelCtx);
     }
 
     public abstract void ut(YslSession session) throws YslTestException, YslEpipeException;

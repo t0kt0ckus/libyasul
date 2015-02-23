@@ -48,7 +48,7 @@
  factory
  </li>
  <li>a shell session creation is initiated through the
- {@link org.openmarl.yasul.YslContext#openSession(YslObserver, int, String) open()} asynchronous call,
+ {@link org.openmarl.yasul.YslContext#openSession(int, String) open()} asynchronous call,
  that is designed to permittedly occur on the application's main thread
  </li>
  <li>after successful initialization on a background thread, the client is signaled on the main thread,
@@ -79,7 +79,7 @@
  context (other than <code>u:r:init:s0</code> or <code>u:r:init_shell:s0</code>).
  <a href="http://su.chainfire.eu/#selinux">SuperSU versions 1.90 and up</a> supports an option
  to specify a context switch: this feature is also accessible through
- {@link org.openmarl.yasul.YslContext#openSession(YslObserver, int, String) open()}
+ {@link org.openmarl.yasul.YslContext#openSession(int, String) open()}
  when available.
  </p>
 

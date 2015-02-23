@@ -95,14 +95,13 @@ public class YslContext {
      * This implementation is synchronous, and should not be used on main/UI thread.
      * </p>
      *
-     * @param client The client to signal.
      * @param ctlFlags The session's initial control flags. The available flags are defined as
      *                 <code>YslSession.SF_XXXX</code>.
      * @param secontext An SE Linux context name, or <code>null</code> when no context switch is
      *                  specified. This feature is only compatible with
      *                  <a href="http://su.chainfire.eu/#selinux-contexts-switching-how">SuperSU versions 1.90 and up</a>.
      */
-    public YslSession openSession(YslObserver client, int ctlFlags, String secontext) {
+    public YslSession openSession(int ctlFlags, String secontext) {
         YslPort port = Libyasul.open(ctlFlags, secontext);
         if (port != null) {
             YslSession session = new YslSession(mAppCtx, port.pid, port.ID, port.stdout,
