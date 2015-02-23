@@ -92,6 +92,33 @@ public class YslContext {
     /** Initiates the creation of a new shell session.
      *
      * <p>This may take more or less time, and involve user interactions and/or a timeout.
+     * This implementation is synchronous, and should not be used on main/UI thread.
+     * </p>
+     *
+     * @param client The client to signal.
+     * @param ctlFlags The session's initial control flags. The available flags are defined as
+     *                 <code>YslSession.SF_XXXX</code>.
+     * @param secontext An SE Linux context name, or <code>null</code> when no context switch is
+     *                  specified. This feature is only compatible with
+     *                  <a href="http://su.chainfire.eu/#selinux-contexts-switching-how">SuperSU versions 1.90 and up</a>.
+     */
+    public YslSession openSession(YslObserver client, int ctlFlags, String secontext) {
+        YslPort port = Libyasul.open(ctlFlags, secontext);
+        if (port != null) {
+            YslSession session = new YslSession(mAppCtx, port.pid, port.ID, port.stdout,
+                    port.stderr);
+            Log.i(TAG,
+                    String.format("Shell session: %s", session.toString()));
+            return session;
+        }
+        Log.e(TAG,
+                "Failed to create session, see Logcat and/or yasul-<pid>.log for possible cause !");
+        return null;
+    }
+
+    /** Asynchronously initiates the creation of a new shell session.
+     *
+     * <p>This may take more or less time, and involve user interactions and/or a timeout.
      * Thus, this {@link YslAsyncSessionFactory implementation} is asynchronous and session's
      * initialization occurs on a background thread. The client will be signaled on the main/UI
      * thread once the setup result is available.
@@ -104,7 +131,7 @@ public class YslContext {
      *                  specified. This feature is only compatible with
      *                  <a href="http://su.chainfire.eu/#selinux-contexts-switching-how">SuperSU versions 1.90 and up</a>.
      */
-    public void openSession(YslObserver client, int ctlFlags, String secontext) {
+    public void openSessionAsync(YslObserver client, int ctlFlags, String secontext) {
         new YslAsyncSessionFactory(mAppCtx, client, ctlFlags, secontext).execute();
     }
 
