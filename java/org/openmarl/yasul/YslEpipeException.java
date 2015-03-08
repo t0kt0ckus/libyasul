@@ -33,6 +33,6 @@ public class YslEpipeException extends Exception {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "The Shell session has been invalidated. This may result from a broken pipe";
     }
 }

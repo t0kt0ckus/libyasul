@@ -100,6 +100,8 @@ public class YslContext {
      * @param secontext An SE Linux context name, or <code>null</code> when no context switch is
      *                  specified. This feature is only compatible with
      *                  <a href="http://su.chainfire.eu/#selinux-contexts-switching-how">SuperSU versions 1.90 and up</a>.
+     *
+     * @return The created session, or <code>null</code> on error.
      */
     public YslSession openSession(int ctlFlags, String secontext) {
         YslPort port = Libyasul.open(ctlFlags, secontext);

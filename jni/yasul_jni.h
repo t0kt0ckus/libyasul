@@ -72,13 +72,12 @@ JNIEXPORT void JNICALL
             jlong jTimeout,
             jboolean jForceKill);
 
-
-/*
 JNIEXPORT jint JNICALL
-    Java_org_openmarl_yasul_Libyasul_pidcmdline(JNIEnv *env, 
+    Java_org_openmarl_yasul_Libyasul_findPidByCmdline(JNIEnv *env, 
             jobject jInstance,
             jstring jCmdline);
             
+/*
 JNIEXPORT jint JNICALL
     Java_org_openmarl_yasul_Libyasul_kill(JNIEnv *env, 
             jobject jInstance,

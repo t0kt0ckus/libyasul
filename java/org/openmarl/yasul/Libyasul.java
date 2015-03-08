@@ -155,8 +155,7 @@ public class Libyasul {
      *
      * @return The process PID on success, a negative value on failure.
      */
-    public static native int pid_cmdline(String cmdline);
-
+    public static native int findPidByCmdline(String cmdline);
 
 
     static final String LIBRARY = "yasul";
